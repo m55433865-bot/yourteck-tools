@@ -1,6 +1,11 @@
 "use client";
 
 import { DragEvent, useEffect, useRef, useState } from "react";
+import {
+  trackConversionPageVisit,
+  trackSuccessfulConversion,
+  trackUploadFailure,
+} from "@/lib/analytics";
 
 const maxFileSizeMb = 200;
 const maxFileSizeBytes = maxFileSizeMb * 1024 * 1024;
@@ -40,6 +45,10 @@ export function Mp4ConverterUi() {
   const [downloadFileName, setDownloadFileName] = useState("converted.mp3");
 
   useEffect(() => {
+    trackConversionPageVisit();
+  }, []);
+
+  useEffect(() => {
     if (status !== "processing") {
       return;
     }
@@ -71,12 +80,21 @@ export function Mp4ConverterUi() {
     const validationError = validateClientFile(file);
 
     if (validationError) {
+      trackUploadFailure({
+        reason: validationError,
+        fileSize: file.size,
+      });
       showUploadError(validationError);
       return;
     }
 
     if (status === "processing") {
-      showUploadError("Please wait for the current upload to finish.");
+      const reason = "Please wait for the current upload to finish.";
+      trackUploadFailure({
+        reason,
+        fileSize: file.size,
+      });
+      showUploadError(reason);
       return;
     }
 
@@ -118,11 +136,20 @@ export function Mp4ConverterUi() {
       setDownloadFileName(data.upload.outputName || buildDownloadFileName(file.name));
       setMessage("Conversion complete. Your download should start automatically.");
       setProgress(100);
+      trackSuccessfulConversion({
+        fileSize: file.size,
+        outputName: data.upload.outputName,
+      });
       window.setTimeout(() => {
         autoDownloadLinkRef.current?.click();
       }, 0);
     } catch (error) {
-      showUploadError(error instanceof Error ? error.message : "Upload failed.");
+      const reason = error instanceof Error ? error.message : "Upload failed.";
+      trackUploadFailure({
+        reason,
+        fileSize: file.size,
+      });
+      showUploadError(reason);
     } finally {
       if (inputRef.current) {
         inputRef.current.value = "";
