@@ -92,3 +92,28 @@ export function getFeaturedTools() {
 export function getToolBySlug(slug: string) {
   return tools.find((tool) => tool.slug === slug);
 }
+
+export function getRelatedTools(slug: string, limit = 6) {
+  const currentTool = getToolBySlug(slug);
+
+  return tools
+    .filter((tool) => tool.slug !== slug)
+    .sort((firstTool, secondTool) => {
+      const firstSameCategory =
+        currentTool && firstTool.category === currentTool.category ? 1 : 0;
+      const secondSameCategory =
+        currentTool && secondTool.category === currentTool.category ? 1 : 0;
+      const firstAvailable = firstTool.status !== "coming-soon" ? 1 : 0;
+      const secondAvailable = secondTool.status !== "coming-soon" ? 1 : 0;
+      const firstFeatured = firstTool.featured ? 1 : 0;
+      const secondFeatured = secondTool.featured ? 1 : 0;
+
+      return (
+        secondSameCategory - firstSameCategory ||
+        secondAvailable - firstAvailable ||
+        secondFeatured - firstFeatured ||
+        firstTool.name.localeCompare(secondTool.name)
+      );
+    })
+    .slice(0, limit);
+}

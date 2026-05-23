@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AdPlaceholder } from "@/components/ad-placeholder";
 import { ImageCompressorUi } from "@/components/image-compressor-ui";
+import { RelatedTools } from "@/components/related-tools";
 import { SectionHeading } from "@/components/section-heading";
 import { StructuredData } from "@/components/structured-data";
 import { absoluteUrl, createSeoMetadata } from "@/lib/seo";
@@ -132,6 +133,8 @@ export default function ImageCompressorPage() {
           </div>
         </div>
       </section>
+
+      <RelatedTools currentSlug="compress-image" />
 
       <section className="border-y border-slate-200 bg-slate-50" aria-labelledby="image-how-it-works">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-2 lg:px-8">

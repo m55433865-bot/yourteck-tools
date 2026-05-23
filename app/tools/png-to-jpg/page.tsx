@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AdPlaceholder } from "@/components/ad-placeholder";
 import { PngToJpgUi } from "@/components/png-to-jpg-ui";
+import { RelatedTools } from "@/components/related-tools";
 import { SectionHeading } from "@/components/section-heading";
 import { StructuredData } from "@/components/structured-data";
 import { absoluteUrl, createSeoMetadata } from "@/lib/seo";
@@ -133,6 +134,8 @@ export default function PngToJpgPage() {
           </div>
         </div>
       </section>
+
+      <RelatedTools currentSlug="png-to-jpg" />
 
       <section className="border-y border-slate-200 bg-slate-50" aria-labelledby="png-how-it-works">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-2 lg:px-8">
