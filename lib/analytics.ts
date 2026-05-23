@@ -5,7 +5,7 @@ import { sendGAEvent } from "@next/third-parties/google";
 type AnalyticsParams = Record<string, string | number | boolean | undefined>;
 
 export function trackAnalyticsEvent(name: string, params: AnalyticsParams = {}) {
-  if (!process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) {
+  if (!process.env.NEXT_PUBLIC_GA_ID) {
     return;
   }
 
