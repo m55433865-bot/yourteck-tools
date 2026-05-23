@@ -26,6 +26,9 @@ export function SiteFooter() {
         <div>
           <p className="text-sm font-semibold">Company</p>
           <div className="mt-3 grid gap-2 text-sm text-slate-300">
+            <Link href="/about" className="hover:text-white">
+              About
+            </Link>
             <Link href="/privacy-policy" className="hover:text-white">
               Privacy Policy
             </Link>

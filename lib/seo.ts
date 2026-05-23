@@ -28,6 +28,11 @@ export const publicStaticRoutes = [
     priority: 0.9,
   },
   {
+    path: "/about",
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  },
+  {
     path: "/privacy-policy",
     changeFrequency: "yearly" as const,
     priority: 0.4,
