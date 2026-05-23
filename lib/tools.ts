@@ -40,9 +40,13 @@ export const tools: Tool[] = [
     name: "Image Compressor",
     description: "Reduce image file size while keeping visuals clean and usable.",
     category: "Image",
-    href: "/tools",
+    href: "/tools/image-compressor",
     featured: true,
-    status: "coming-soon",
+    status: "available",
+    seoTitle: "Free Image Compressor Online | YourTeck Tools",
+    seoDescription:
+      "Compress JPG, JPEG, PNG, and WebP images online with YourTeck Tools. Upload images up to 20 MB and download a smaller optimized file.",
+    sitemapPriority: 0.9,
   },
   {
     slug: "pdf-tools",
