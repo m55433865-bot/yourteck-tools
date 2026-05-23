@@ -61,7 +61,7 @@ export async function POST(request: Request) {
     const upload = await saveTemporaryUpload(file);
     const output = await convertMp4ToMp3(upload.path);
 
-    await deleteTemporaryFile(upload.path, uploadTempDirectory, "mp4-upload");
+    void deleteTemporaryFile(upload.path, uploadTempDirectory, "mp4-upload");
 
     return NextResponse.json(
       {

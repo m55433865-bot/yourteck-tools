@@ -6,6 +6,7 @@ const maxFileSizeMb = 200;
 const maxFileSizeBytes = maxFileSizeMb * 1024 * 1024;
 
 type UploadStatus = "idle" | "processing" | "converted" | "error";
+type ProcessingStage = "idle" | "uploading" | "processing" | "extracting" | "finalizing" | "complete";
 
 type UploadResponse = {
   ok: boolean;
@@ -23,34 +24,34 @@ type UploadResponse = {
 
 export function Mp4ConverterUi() {
   const inputRef = useRef<HTMLInputElement>(null);
+  const autoDownloadLinkRef = useRef<HTMLAnchorElement>(null);
   const [fileName, setFileName] = useState("");
   const [isDragging, setIsDragging] = useState(false);
   const [progress, setProgress] = useState(0);
   const [status, setStatus] = useState<UploadStatus>("idle");
+  const [stage, setStage] = useState<ProcessingStage>("idle");
   const [message, setMessage] = useState(
     "Upload an MP4 file to convert it to MP3.",
   );
   const [errorMessage, setErrorMessage] = useState("");
   const [downloadUrl, setDownloadUrl] = useState("");
+  const [downloadFileName, setDownloadFileName] = useState("converted.mp3");
 
   useEffect(() => {
-    if (status !== "processing" || progress >= 90) {
+    if (status !== "processing") {
       return;
     }
 
     const interval = window.setInterval(() => {
       setProgress((current) => {
-        if (current >= 90) {
-          window.clearInterval(interval);
-          return 90;
-        }
-
-        return Math.min(current + 5, 90);
+        const nextProgress = getNextProgress(current);
+        setStage(getStageForProgress(nextProgress));
+        return nextProgress;
       });
-    }, 500);
+    }, 420);
 
     return () => window.clearInterval(interval);
-  }, [progress, status]);
+  }, [status]);
 
   async function uploadFile(file: File) {
     const validationError = validateClientFile(file);
@@ -68,9 +69,11 @@ export function Mp4ConverterUi() {
     setFileName(file.name);
     setProgress(0);
     setStatus("processing");
+    setStage("uploading");
     setErrorMessage("");
     setDownloadUrl("");
-    setMessage("Uploading and converting your MP4 file...");
+    setDownloadFileName("converted.mp3");
+    setMessage("Uploading your MP4 file...");
 
     try {
       const formData = new FormData();
@@ -94,9 +97,14 @@ export function Mp4ConverterUi() {
       }
 
       setStatus("converted");
+      setStage("complete");
       setDownloadUrl(data.upload.downloadUrl);
-      setMessage("Conversion complete. Your MP3 is ready to download.");
+      setDownloadFileName(data.upload.outputName || buildDownloadFileName(file.name));
+      setMessage("Conversion complete. Your download should start automatically.");
       setProgress(100);
+      window.setTimeout(() => {
+        autoDownloadLinkRef.current?.click();
+      }, 0);
     } catch (error) {
       showUploadError(error instanceof Error ? error.message : "Upload failed.");
     } finally {
@@ -108,9 +116,11 @@ export function Mp4ConverterUi() {
 
   function showUploadError(error: string) {
     setStatus("error");
+    setStage("idle");
     setErrorMessage(error);
     setMessage("Upload an MP4 file to convert it to MP3.");
     setDownloadUrl("");
+    setDownloadFileName("converted.mp3");
     setProgress(0);
   }
 
@@ -129,6 +139,9 @@ export function Mp4ConverterUi() {
     setIsDragging(false);
     handleFiles(event.dataTransfer.files);
   }
+
+  const statusMessage =
+    status === "processing" ? stageMessages[stage] || stageMessages.uploading : message;
 
   return (
     <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
@@ -180,11 +193,13 @@ export function Mp4ConverterUi() {
             <p className="text-sm font-semibold text-slate-950">
               {fileName || "No file selected"}
             </p>
-            <p className="text-sm text-slate-600">{message}</p>
+            <p className="text-sm text-slate-600">{statusMessage}</p>
           </div>
           {downloadUrl ? (
             <a
+              ref={autoDownloadLinkRef}
               href={downloadUrl}
+              download={downloadFileName}
               className="inline-flex h-11 items-center justify-center rounded-md bg-slate-950 px-4 text-sm font-semibold text-white transition hover:bg-slate-800"
             >
               Download MP3
@@ -208,9 +223,81 @@ export function Mp4ConverterUi() {
         <p className="mt-2 text-right text-sm font-medium text-slate-600">
           {progress}%
         </p>
+        {stage !== "idle" ? (
+          <div className="mt-4 grid gap-2 sm:grid-cols-4">
+            {processingStages.map((item) => (
+              <div
+                key={item.key}
+                className={`rounded-md border px-3 py-2 text-xs font-semibold transition ${
+                  getStageRank(stage) >= getStageRank(item.key)
+                    ? "border-cyan-200 bg-cyan-50 text-cyan-800"
+                    : "border-slate-200 bg-slate-50 text-slate-500"
+                }`}
+              >
+                {item.label}
+              </div>
+            ))}
+          </div>
+        ) : null}
       </div>
     </section>
   );
+}
+
+const processingStages: Array<{ key: ProcessingStage; label: string }> = [
+  { key: "uploading", label: "Uploading" },
+  { key: "processing", label: "Processing" },
+  { key: "extracting", label: "Extracting audio" },
+  { key: "finalizing", label: "Finalizing" },
+];
+
+const stageMessages: Record<ProcessingStage, string> = {
+  idle: "Upload an MP4 file to convert it to MP3.",
+  uploading: "Uploading your MP4 file...",
+  processing: "Processing the video file...",
+  extracting: "Extracting audio from the MP4...",
+  finalizing: "Finalizing your MP3 download...",
+  complete: "Conversion complete. Your MP3 is ready to download.",
+};
+
+function getNextProgress(current: number) {
+  if (current < 28) {
+    return Math.min(current + 7, 28);
+  }
+
+  if (current < 58) {
+    return Math.min(current + 4, 58);
+  }
+
+  if (current < 84) {
+    return Math.min(current + 3, 84);
+  }
+
+  if (current < 96) {
+    return Math.min(current + 1, 96);
+  }
+
+  return 96;
+}
+
+function getStageForProgress(progress: number): ProcessingStage {
+  if (progress < 30) {
+    return "uploading";
+  }
+
+  if (progress < 60) {
+    return "processing";
+  }
+
+  if (progress < 86) {
+    return "extracting";
+  }
+
+  return "finalizing";
+}
+
+function getStageRank(stage: ProcessingStage) {
+  return ["idle", "uploading", "processing", "extracting", "finalizing", "complete"].indexOf(stage);
 }
 
 function validateClientFile(file: File) {
@@ -231,6 +318,11 @@ function validateClientFile(file: File) {
   }
 
   return "";
+}
+
+function buildDownloadFileName(fileName: string) {
+  const baseName = fileName.replace(/\.[^/.]+$/, "").trim();
+  return `${baseName || "converted"}.mp3`;
 }
 
 function getUploadSessionId() {

@@ -157,7 +157,6 @@ export async function convertMp4ToMp3(inputPath: string) {
 
   return {
     storedName: safeFileName,
-    path: outputPath,
   };
 }
 
