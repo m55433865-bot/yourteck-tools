@@ -1,19 +1,13 @@
 import type { Metadata } from "next";
 import { ContentPage } from "@/components/content-page";
+import { createSeoMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createSeoMetadata({
   title: "Terms",
   description:
     "Read the YourTeck Tools terms for using online converters and file tools.",
-  alternates: {
-    canonical: "/terms",
-  },
-  openGraph: {
-    title: "Terms | YourTeck Tools",
-    description: "Terms for using YourTeck Tools.",
-    url: "/terms",
-  },
-};
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (

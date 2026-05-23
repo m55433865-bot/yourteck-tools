@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     images: [defaultOgImage.url],
   },
   alternates: {
-    canonical: "/",
+    canonical: siteConfig.url,
   },
 };
 

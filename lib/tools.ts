@@ -15,7 +15,7 @@ export type Tool = {
 
 export const siteConfig = {
   name: "YourTeck Tools",
-  url: "https://yourteck.tools",
+  url: "https://tools.yourteck.com",
   description:
     "Fast, free, browser-friendly tools for converting, editing, and managing everyday files online.",
 };

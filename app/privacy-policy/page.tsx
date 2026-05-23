@@ -1,19 +1,13 @@
 import type { Metadata } from "next";
 import { ContentPage } from "@/components/content-page";
+import { createSeoMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createSeoMetadata({
   title: "Privacy Policy",
   description:
     "Read the YourTeck Tools privacy policy, including how temporary uploaded files are handled.",
-  alternates: {
-    canonical: "/privacy-policy",
-  },
-  openGraph: {
-    title: "Privacy Policy | YourTeck Tools",
-    description: "How YourTeck Tools handles privacy and temporary files.",
-    url: "/privacy-policy",
-  },
-};
+  path: "/privacy-policy",
+});
 
 export default function PrivacyPolicyPage() {
   return (

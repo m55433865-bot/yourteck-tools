@@ -10,7 +10,7 @@ type SeoMetadataOptions = {
 };
 
 export const defaultOgImage = {
-  url: "/opengraph-image",
+  url: absoluteUrl("/opengraph-image"),
   width: 1200,
   height: 630,
   alt: "YourTeck Tools online file tools",

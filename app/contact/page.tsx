@@ -1,18 +1,12 @@
 import type { Metadata } from "next";
 import { ContentPage } from "@/components/content-page";
+import { createSeoMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createSeoMetadata({
   title: "Contact",
   description: "Contact YourTeck Tools for support and general questions.",
-  alternates: {
-    canonical: "/contact",
-  },
-  openGraph: {
-    title: "Contact | YourTeck Tools",
-    description: "Contact YourTeck Tools.",
-    url: "/contact",
-  },
-};
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (
