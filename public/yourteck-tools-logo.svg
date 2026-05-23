@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 96" role="img" aria-label="YourTeck Tools logo">
+  <rect width="96" height="96" rx="20" fill="#020617"/>
+  <path d="M26 26h44v9H53v35h-9V35H26v-9Z" fill="#fff"/>
+  <path d="M66 48h10v22H66V48Z" fill="#06b6d4"/>
+  <path d="M21 63h18v7H21v-7Z" fill="#67e8f9"/>
+  <text x="118" y="45" fill="#020617" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="750" letter-spacing="0">YourTeck</text>
+  <text x="120" y="70" fill="#0e7490" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="5">TOOLS</text>
+</svg>

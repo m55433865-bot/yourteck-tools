@@ -1,65 +1,110 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { HomeSearch } from "@/components/home-search";
+import { SectionHeading } from "@/components/section-heading";
+import { StructuredData } from "@/components/structured-data";
+import { ToolCard } from "@/components/tool-card";
+import { absoluteUrl, createSeoMetadata } from "@/lib/seo";
+import { getFeaturedTools, siteConfig } from "@/lib/tools";
+
+export const metadata: Metadata = createSeoMetadata({
+  title: "YourTeck Tools | Free Online File Tools",
+  description:
+    "Use YourTeck Tools for fast online file utilities, including MP4 to MP3 conversion, temporary file handling, and a growing library of audio, video, image, and document tools.",
+  path: "/",
+  absoluteTitle: true,
+});
 
 export default function Home() {
+  const featuredTools = getFeaturedTools();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      <StructuredData
+        data={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: siteConfig.name,
+          url: siteConfig.url,
+          description: siteConfig.description,
+          potentialAction: {
+            "@type": "SearchAction",
+            target: `${absoluteUrl("/tools")}?q={search_term_string}`,
+            "query-input": "required name=search_term_string",
+          },
+        }}
+      />
+      <section className="bg-white" aria-labelledby="home-hero-title">
+        <div className="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6 sm:py-20 lg:px-8">
+          <p className="text-sm font-semibold uppercase text-cyan-700">
+            Free online utilities
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          <h1
+            id="home-hero-title"
+            className="mx-auto mt-4 max-w-3xl text-4xl font-semibold text-slate-950 sm:text-5xl"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            YourTeck Tools
+          </h1>
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">
+            Fast, simple tools for everyday file conversion, media tasks, and
+            digital cleanup. Start with MP4 to MP3 and grow from there.
+          </p>
+          <HomeSearch />
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link
+              href="/tools"
+              className="flex h-12 items-center justify-center rounded-md bg-slate-950 px-5 text-sm font-semibold text-white hover:bg-slate-800"
+            >
+              Browse all tools
+            </Link>
+            <Link
+              href="/tools/mp4-to-mp3"
+              className="flex h-12 items-center justify-center rounded-md border border-slate-300 px-5 text-sm font-semibold text-slate-950 hover:bg-slate-50"
+            >
+              Try MP4 to MP3
+            </Link>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section className="border-y border-slate-200 bg-slate-50" aria-labelledby="featured-tools">
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
+          <SectionHeading
+            id="featured-tools"
+            eyebrow="Featured"
+            title="Popular tools"
+            description="A starter set of practical tools with a structure ready for more converters, editors, and file utilities."
+          />
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredTools.map((tool) => (
+              <ToolCard key={tool.slug} tool={tool} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white" aria-labelledby="seo-foundation">
+        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-14 sm:px-6 md:grid-cols-[1fr_1fr] lg:px-8">
+          <SectionHeading
+            id="seo-foundation"
+            eyebrow="SEO ready"
+            title="A clean foundation for searchable online tools"
+            description="YourTeck Tools is structured with focused pages, useful metadata, and scalable content sections so every new utility can target a clear user intent."
+          />
+          <div className="grid gap-4 text-sm leading-7 text-slate-600">
+            <p>
+              Each tool page can carry its own title, description, FAQ, how-it-works
+              content, and internal links. That gives search engines and users a
+              clear reason to understand and trust the page.
+            </p>
+            <p>
+              The tools index groups utilities by category, while the homepage
+              highlights core tasks and gives visitors a quick path to the right
+              converter.
+            </p>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
