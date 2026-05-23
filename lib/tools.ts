@@ -49,6 +49,20 @@ export const tools: Tool[] = [
     sitemapPriority: 0.9,
   },
   {
+    slug: "png-to-jpg",
+    name: "PNG to JPG Converter",
+    description:
+      "Convert PNG images to high-quality JPG files with an optional white background.",
+    category: "Image",
+    href: "/tools/png-to-jpg",
+    featured: true,
+    status: "available",
+    seoTitle: "Free PNG to JPG Converter Online | YourTeck Tools",
+    seoDescription:
+      "Convert PNG images to JPG online with YourTeck Tools. Upload PNG files up to 20 MB, choose a white background for transparent images, and download a high-quality JPG.",
+    sitemapPriority: 0.9,
+  },
+  {
     slug: "pdf-tools",
     name: "PDF Tools",
     description: "Merge, split, and organize PDF files from one tidy workspace.",
