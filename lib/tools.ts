@@ -63,6 +63,20 @@ export const tools: Tool[] = [
     sitemapPriority: 0.9,
   },
   {
+    slug: "jpg-to-png",
+    name: "JPG to PNG Converter",
+    description:
+      "Convert JPG and JPEG images into clean PNG files for editing and sharing.",
+    category: "Image",
+    href: "/tools/jpg-to-png",
+    featured: true,
+    status: "available",
+    seoTitle: "Free JPG to PNG Converter Online | YourTeck Tools",
+    seoDescription:
+      "Convert JPG and JPEG images to PNG online with YourTeck Tools. Upload images up to 20 MB and download a temporary PNG file after conversion.",
+    sitemapPriority: 0.9,
+  },
+  {
     slug: "pdf-tools",
     name: "PDF Tools",
     description: "Merge, split, and organize PDF files from one tidy workspace.",
