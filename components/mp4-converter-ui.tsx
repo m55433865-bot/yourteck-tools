@@ -4,6 +4,7 @@ import { DragEvent, useEffect, useRef, useState } from "react";
 
 const maxFileSizeMb = 200;
 const maxFileSizeBytes = maxFileSizeMb * 1024 * 1024;
+const finalizingMessages = ["Finalizing audio...", "Preparing download..."];
 
 type UploadStatus = "idle" | "processing" | "converted" | "error";
 type ProcessingStage = "idle" | "uploading" | "processing" | "extracting" | "finalizing" | "complete";
@@ -30,6 +31,7 @@ export function Mp4ConverterUi() {
   const [progress, setProgress] = useState(0);
   const [status, setStatus] = useState<UploadStatus>("idle");
   const [stage, setStage] = useState<ProcessingStage>("idle");
+  const [finalizingMessageIndex, setFinalizingMessageIndex] = useState(0);
   const [message, setMessage] = useState(
     "Upload an MP4 file to convert it to MP3.",
   );
@@ -53,6 +55,18 @@ export function Mp4ConverterUi() {
     return () => window.clearInterval(interval);
   }, [status]);
 
+  useEffect(() => {
+    if (status !== "processing" || stage !== "finalizing") {
+      return;
+    }
+
+    const interval = window.setInterval(() => {
+      setFinalizingMessageIndex((current) => (current + 1) % finalizingMessages.length);
+    }, 1400);
+
+    return () => window.clearInterval(interval);
+  }, [stage, status]);
+
   async function uploadFile(file: File) {
     const validationError = validateClientFile(file);
 
@@ -70,6 +84,7 @@ export function Mp4ConverterUi() {
     setProgress(0);
     setStatus("processing");
     setStage("uploading");
+    setFinalizingMessageIndex(0);
     setErrorMessage("");
     setDownloadUrl("");
     setDownloadFileName("converted.mp3");
@@ -98,6 +113,7 @@ export function Mp4ConverterUi() {
 
       setStatus("converted");
       setStage("complete");
+      setFinalizingMessageIndex(0);
       setDownloadUrl(data.upload.downloadUrl);
       setDownloadFileName(data.upload.outputName || buildDownloadFileName(file.name));
       setMessage("Conversion complete. Your download should start automatically.");
@@ -117,6 +133,7 @@ export function Mp4ConverterUi() {
   function showUploadError(error: string) {
     setStatus("error");
     setStage("idle");
+    setFinalizingMessageIndex(0);
     setErrorMessage(error);
     setMessage("Upload an MP4 file to convert it to MP3.");
     setDownloadUrl("");
@@ -141,7 +158,10 @@ export function Mp4ConverterUi() {
   }
 
   const statusMessage =
-    status === "processing" ? stageMessages[stage] || stageMessages.uploading : message;
+    status === "processing"
+      ? getProcessingMessage(stage, finalizingMessageIndex)
+      : message;
+  const isFinalizing = status === "processing" && stage === "finalizing";
 
   return (
     <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
@@ -220,9 +240,17 @@ export function Mp4ConverterUi() {
             style={{ width: `${progress}%` }}
           />
         </div>
-        <p className="mt-2 text-right text-sm font-medium text-slate-600">
-          {progress}%
-        </p>
+        <div className="mt-2 flex items-center justify-between gap-3 text-sm font-medium text-slate-600">
+          {isFinalizing ? (
+            <span className="inline-flex items-center gap-2 text-cyan-800">
+              <span className="size-3 rounded-full border-2 border-cyan-200 border-t-cyan-700 motion-safe:animate-spin" />
+              {statusMessage}
+            </span>
+          ) : (
+            <span>{stage === "complete" ? "Ready" : statusMessage}</span>
+          )}
+          <span>{isFinalizing ? "Almost ready" : `${progress}%`}</span>
+        </div>
         {stage !== "idle" ? (
           <div className="mt-4 grid gap-2 sm:grid-cols-4">
             {processingStages.map((item) => (
@@ -256,7 +284,7 @@ const stageMessages: Record<ProcessingStage, string> = {
   uploading: "Uploading your MP4 file...",
   processing: "Processing the video file...",
   extracting: "Extracting audio from the MP4...",
-  finalizing: "Finalizing your MP3 download...",
+  finalizing: "Finalizing audio...",
   complete: "Conversion complete. Your MP3 is ready to download.",
 };
 
@@ -273,11 +301,11 @@ function getNextProgress(current: number) {
     return Math.min(current + 3, 84);
   }
 
-  if (current < 96) {
-    return Math.min(current + 1, 96);
+  if (current < 86) {
+    return 86;
   }
 
-  return 96;
+  return 86;
 }
 
 function getStageForProgress(progress: number): ProcessingStage {
@@ -289,11 +317,19 @@ function getStageForProgress(progress: number): ProcessingStage {
     return "processing";
   }
 
-  if (progress < 86) {
+  if (progress < 85) {
     return "extracting";
   }
 
   return "finalizing";
+}
+
+function getProcessingMessage(stage: ProcessingStage, finalizingMessageIndex: number) {
+  if (stage === "finalizing") {
+    return finalizingMessages[finalizingMessageIndex];
+  }
+
+  return stageMessages[stage] || stageMessages.uploading;
 }
 
 function getStageRank(stage: ProcessingStage) {
