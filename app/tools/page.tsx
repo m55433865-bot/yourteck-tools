@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AdPlaceholder } from "@/components/ad-placeholder";
 import { SectionHeading } from "@/components/section-heading";
 import { StructuredData } from "@/components/structured-data";
 import { ToolsBrowser } from "@/components/tools-browser";
@@ -46,6 +47,7 @@ export default function ToolsPage() {
             title="All YourTeck Tools"
             description="Search and filter file tools by category. This index is ready to scale as new utilities are added."
           />
+          <AdPlaceholder slot="tools-index-top" className="mt-8" />
           <div className="mt-8">
             <ToolsBrowser />
           </div>

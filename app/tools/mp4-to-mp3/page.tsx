@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AdPlaceholder } from "@/components/ad-placeholder";
 import { Mp4ConverterUi } from "@/components/mp4-converter-ui";
 import { SectionHeading } from "@/components/section-heading";
 import { StructuredData } from "@/components/structured-data";
@@ -93,27 +94,40 @@ export default function Mp4ToMp3Page() {
         }}
       />
       <section className="bg-white" aria-labelledby="mp4-tool-title">
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
-          <div>
-            <p className="text-sm font-semibold uppercase text-cyan-700">
-              Audio converter
-            </p>
-            <h1 id="mp4-tool-title" className="mt-4 text-4xl font-semibold text-slate-950 sm:text-5xl">
-              Free MP4 to MP3 Converter Online
-            </h1>
-            <p className="mt-5 text-lg leading-8 text-slate-600">
-              Upload MP4 videos with a clean, mobile-friendly tool page. This
-              version validates uploads, converts them with FFmpeg, and stores
-              the MP3 temporarily for download.
-            </p>
-            <Link
-              href="/tools"
-              className="mt-6 inline-flex h-12 items-center rounded-md border border-slate-300 px-5 text-sm font-semibold text-slate-950 hover:bg-slate-50"
-            >
-              View all tools
-            </Link>
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+          <AdPlaceholder slot="mp4-to-mp3-top" />
+          <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
+            <div className="grid gap-8">
+              <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+                <div>
+                  <p className="text-sm font-semibold uppercase text-cyan-700">
+                    Audio converter
+                  </p>
+                  <h1 id="mp4-tool-title" className="mt-4 text-4xl font-semibold text-slate-950 sm:text-5xl">
+                    Free MP4 to MP3 Converter Online
+                  </h1>
+                  <p className="mt-5 text-lg leading-8 text-slate-600">
+                    Upload MP4 videos with a clean, mobile-friendly tool page.
+                    This version validates uploads, converts them with FFmpeg,
+                    and stores the MP3 temporarily for download.
+                  </p>
+                  <Link
+                    href="/tools"
+                    className="mt-6 inline-flex h-12 items-center rounded-md border border-slate-300 px-5 text-sm font-semibold text-slate-950 hover:bg-slate-50"
+                  >
+                    View all tools
+                  </Link>
+                </div>
+                <Mp4ConverterUi />
+              </div>
+              <AdPlaceholder slot="mp4-to-mp3-below-converter" />
+            </div>
+            <AdPlaceholder
+              slot="mp4-to-mp3-sidebar"
+              variant="sidebar"
+              className="sticky top-24 hidden self-start lg:flex"
+            />
           </div>
-          <Mp4ConverterUi />
         </div>
       </section>
 
