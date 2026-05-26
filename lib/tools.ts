@@ -1,4 +1,4 @@
-export type ToolCategory = "Audio" | "Video" | "Image" | "Document";
+export type ToolCategory = "Audio" | "Video" | "Image" | "Document" | "Utility";
 
 export type Tool = {
   slug: string;
@@ -74,6 +74,20 @@ export const tools: Tool[] = [
     seoTitle: "Free JPG to PNG Converter Online | YourTeck Tools",
     seoDescription:
       "Convert JPG and JPEG images to PNG online with YourTeck Tools. Upload images up to 20 MB and download a temporary PNG file after conversion.",
+    sitemapPriority: 0.9,
+  },
+  {
+    slug: "qr-code-generator",
+    name: "QR Code Generator",
+    description:
+      "Create QR codes for URLs, text, email, phone numbers, and WiFi credentials.",
+    category: "Utility",
+    href: "/tools/qr-code-generator",
+    featured: true,
+    status: "available",
+    seoTitle: "Free QR Code Generator Online | YourTeck Tools",
+    seoDescription:
+      "Generate QR codes online with YourTeck Tools. Create instant QR codes for URLs, text, email, phone numbers, and WiFi credentials, then download a PNG.",
     sitemapPriority: 0.9,
   },
   {
