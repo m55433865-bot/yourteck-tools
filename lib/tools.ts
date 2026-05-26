@@ -118,6 +118,20 @@ export const tools: Tool[] = [
     sitemapPriority: 0.9,
   },
   {
+    slug: "compress-pdf",
+    name: "Compress PDF",
+    description:
+      "Reduce PDF file size with simple low, recommended, or high compression levels.",
+    category: "Document",
+    href: "/tools/compress-pdf",
+    featured: true,
+    status: "available",
+    seoTitle: "Free PDF Compressor Online | YourTeck Tools",
+    seoDescription:
+      "Compress PDF files online with YourTeck Tools. Upload one PDF up to 100 MB, choose a compression level, and download a smaller temporary PDF file.",
+    sitemapPriority: 0.9,
+  },
+  {
     slug: "video-compressor",
     name: "Video Compressor",
     description: "Prepare videos for sharing with lightweight compression tools.",
