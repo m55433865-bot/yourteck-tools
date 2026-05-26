@@ -91,13 +91,17 @@ export const tools: Tool[] = [
     sitemapPriority: 0.9,
   },
   {
-    slug: "pdf-tools",
-    name: "PDF Tools",
-    description: "Merge, split, and organize PDF files from one tidy workspace.",
+    slug: "pdf-merge",
+    name: "PDF Merge",
+    description: "Combine multiple PDF files into one downloadable document.",
     category: "Document",
-    href: "/tools",
+    href: "/tools/pdf-merge",
     featured: true,
-    status: "coming-soon",
+    status: "available",
+    seoTitle: "Free PDF Merge Online | YourTeck Tools",
+    seoDescription:
+      "Merge PDF files online with YourTeck Tools. Upload multiple PDFs up to 100 MB total, reorder them, and download one combined PDF.",
+    sitemapPriority: 0.9,
   },
   {
     slug: "video-compressor",
