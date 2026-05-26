@@ -275,18 +275,22 @@ export function PdfMergeUi() {
                 onDragStart={() => setDraggedItemId(item.id)}
                 onDragOver={(event) => event.preventDefault()}
                 onDrop={(event) => handleItemDrop(event, item.id)}
-                className="grid gap-3 rounded-md border border-slate-200 bg-slate-50 p-3 sm:grid-cols-[auto_minmax(0,1fr)_auto]"
+                className="grid gap-3 rounded-md border border-slate-200 bg-slate-50 p-3 sm:grid-cols-[auto_minmax(0,1fr)]"
               >
-                <span className="flex size-8 items-center justify-center rounded-md bg-cyan-700 text-sm font-semibold text-white">
-                  {index + 1}
-                </span>
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-slate-950">
-                    {item.file.name}
-                  </p>
-                  <p className="text-xs text-slate-600">{formatBytes(item.file.size)}</p>
+                <div className="flex items-start gap-3">
+                  <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-cyan-700 text-sm font-semibold text-white">
+                    {index + 1}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="break-words text-sm font-semibold leading-5 text-slate-950">
+                      {item.file.name}
+                    </p>
+                    <p className="mt-1 text-xs text-slate-600">
+                      {formatBytes(item.file.size)}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 sm:col-start-2">
                   <button
                     type="button"
                     onClick={() => moveItem(item.id, -1)}
