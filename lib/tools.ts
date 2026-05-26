@@ -104,6 +104,20 @@ export const tools: Tool[] = [
     sitemapPriority: 0.9,
   },
   {
+    slug: "pdf-split",
+    name: "PDF Split",
+    description:
+      "Split every page from a PDF or extract selected pages into a ZIP download.",
+    category: "Document",
+    href: "/tools/pdf-split",
+    featured: true,
+    status: "available",
+    seoTitle: "Free PDF Split Online | YourTeck Tools",
+    seoDescription:
+      "Split PDF files online with YourTeck Tools. Upload one PDF up to 100 MB, split every page or extract selected pages, and download a temporary ZIP file.",
+    sitemapPriority: 0.9,
+  },
+  {
     slug: "video-compressor",
     name: "Video Compressor",
     description: "Prepare videos for sharing with lightweight compression tools.",

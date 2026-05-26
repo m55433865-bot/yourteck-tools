@@ -1,7 +1,10 @@
 import Link from "next/link";
+import { tools } from "@/lib/tools";
 import { BrandLogo } from "./brand-logo";
 
 export function SiteFooter() {
+  const availableTools = tools.filter((tool) => tool.status !== "coming-soon");
+
   return (
     <footer className="border-t border-slate-200 bg-slate-950 text-white">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-[1.5fr_1fr_1fr_1fr] lg:px-8">
@@ -18,9 +21,11 @@ export function SiteFooter() {
             <Link href="/tools" className="hover:text-white">
               All tools
             </Link>
-            <Link href="/tools/mp4-to-mp3" className="hover:text-white">
-              MP4 to MP3
-            </Link>
+            {availableTools.map((tool) => (
+              <Link key={tool.slug} href={tool.href} className="hover:text-white">
+                {tool.name.replace(" Converter", "")}
+              </Link>
+            ))}
           </div>
         </div>
         <div>

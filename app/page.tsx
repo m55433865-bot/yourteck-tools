@@ -47,7 +47,8 @@ export default function Home() {
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">
             Fast, simple tools for everyday file conversion, media tasks, and
-            digital cleanup. Start with MP4 to MP3 and grow from there.
+            digital cleanup. Choose from converters, PDF tools, QR utilities,
+            and more.
           </p>
           <HomeSearch />
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -58,10 +59,10 @@ export default function Home() {
               Browse all tools
             </Link>
             <Link
-              href="/tools/mp4-to-mp3"
+              href="/tools/pdf-merge"
               className="flex h-12 items-center justify-center rounded-md border border-slate-300 px-5 text-sm font-semibold text-slate-950 hover:bg-slate-50"
             >
-              Try MP4 to MP3
+              Try PDF Merge
             </Link>
           </div>
         </div>
@@ -73,7 +74,7 @@ export default function Home() {
             id="featured-tools"
             eyebrow="Featured"
             title="Popular tools"
-            description="A starter set of practical tools with a structure ready for more converters, editors, and file utilities."
+            description="Explore the current YourTeck Tools library, including file converters, PDF utilities, image tools, and QR code generation."
           />
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {featuredTools.map((tool) => (

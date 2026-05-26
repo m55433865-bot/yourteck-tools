@@ -34,8 +34,8 @@ export function HomeSearch() {
         placeholder="Search for file converters and tools"
         className="h-14 w-full rounded-lg border border-slate-300 bg-white px-5 text-base text-slate-950 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-cyan-600 focus:ring-4 focus:ring-cyan-100"
       />
-      <div className="mt-3 grid gap-2 rounded-lg border border-slate-200 bg-white p-2 shadow-sm">
-        {matches.slice(0, 4).map((tool) => (
+      <div className="mt-3 grid max-h-96 gap-2 overflow-y-auto rounded-lg border border-slate-200 bg-white p-2 shadow-sm">
+        {matches.map((tool) => (
           <Link
             key={tool.slug}
             href={tool.href}
