@@ -77,6 +77,20 @@ export const tools: Tool[] = [
     sitemapPriority: 0.9,
   },
   {
+    slug: "jpg-to-webp",
+    name: "JPG to WEBP Converter",
+    description:
+      "Convert JPG and JPEG images into efficient WEBP files with selectable quality.",
+    category: "Image",
+    href: "/tools/jpg-to-webp",
+    featured: true,
+    status: "available",
+    seoTitle: "Free JPG to WEBP Converter Online | YourTeck Tools",
+    seoDescription:
+      "Convert JPG and JPEG images to WEBP online with YourTeck Tools. Upload images up to 25 MB, choose a quality level, and download a temporary WEBP file.",
+    sitemapPriority: 0.9,
+  },
+  {
     slug: "qr-code-generator",
     name: "QR Code Generator",
     description:
